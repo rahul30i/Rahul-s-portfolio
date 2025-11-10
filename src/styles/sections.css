@@ -1,0 +1,162 @@
+/* Section spacing */
+section {
+    margin: 0 !important;
+    padding: 2rem 0 !important;
+}
+
+/* Compact spacing between sections */
+section + section {
+    padding-top: 1rem !important;
+}
+
+/* Ensure content flows smoothly */
+.section-content {
+    margin: 0 !important;
+    padding: 1rem 0;
+}
+
+/* Add subtle transitions */
+section {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Hover effects for interactive sections */
+section:hover {
+    transform: translateZ(10px);
+}
+
+/* Ensure proper stacking */
+section {
+    position: relative;
+    z-index: 1;
+}
+
+/* Background effects container */
+.background-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .section-content {
+        padding: 1rem 0;
+    }
+}
+
+/* Ensure no margin/padding on wrapper elements */
+.section-wrapper,
+.content-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Fix for nested containers */
+.container,
+.container-fluid {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Remove unwanted margins from common elements */
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, dl,
+.card, .row {
+    margin-bottom: 1rem !important;
+}
+
+/* Last child margin removal */
+section:last-child,
+.section-content:last-child,
+.container:last-child,
+.row:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Animation keyframes */
+@keyframes floatUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes tiltIn {
+    0% { transform: perspective(1000px) rotateX(30deg) translateY(50px); opacity: 0; }
+    100% { transform: perspective(1000px) rotateX(0) translateY(0); opacity: 1; }
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 5px rgba(100, 149, 237, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(100, 149, 237, 0.4); }
+    100% { box-shadow: 0 0 5px rgba(100, 149, 237, 0.2); }
+}
+
+@keyframes borderFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Section entrance animations */
+section {
+    animation: floatUp 0.6s ease-out forwards;
+}
+
+/* Project section specific styles */
+section.projects {
+    position: relative;
+    animation: tiltIn 0.8s ease-out forwards;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    margin: 2rem 0 !important;
+    padding: 2rem !important;
+    transition: all 0.3s ease;
+}
+
+section.projects:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(45deg, #4facfe, #00f2fe, #4facfe);
+    background-size: 200% 200%;
+    animation: borderFlow 3s ease infinite;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+section.projects:hover {
+    transform: translateZ(20px) scale(1.02);
+    animation: glowPulse 2s infinite;
+}
+
+/* Project cards */
+section.projects .project-card {
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+section.projects .project-card:hover {
+    transform: translateZ(30px) scale(1.05);
+}
+
+/* Stagger children animations with enhanced timing */
+section > * {
+    animation: floatUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    opacity: 0;
+}
+
+section.projects > *:nth-child(1) { animation-delay: 0.2s; }
+section.projects > *:nth-child(2) { animation-delay: 0.4s; }
+section.projects > *:nth-child(3) { animation-delay: 0.6s; }
+section.projects > *:nth-child(4) { animation-delay: 0.8s; }
+section.projects > *:nth-child(5) { animation-delay: 1s; }

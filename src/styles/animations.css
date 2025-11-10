@@ -1,0 +1,147 @@
+/* Animation keyframes */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.5); opacity: 0.1; }
+    100% { transform: scale(1); opacity: 0.2; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    25% { transform: translateY(-10px) translateX(5px) rotate(3deg); }
+    50% { transform: translateY(0) translateX(10px) rotate(0deg); }
+    75% { transform: translateY(10px) translateX(5px) rotate(-3deg); }
+}
+
+@keyframes float-reverse {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    25% { transform: translateY(10px) translateX(-5px) rotate(-3deg); }
+    50% { transform: translateY(0) translateX(-10px) rotate(0deg); }
+    75% { transform: translateY(-10px) translateX(-5px) rotate(3deg); }
+}
+
+@keyframes rotate3d {
+    0% { transform: perspective(1000px) rotateX(0) rotateY(0); }
+    50% { transform: perspective(1000px) rotateX(15deg) rotateY(15deg); }
+    100% { transform: perspective(1000px) rotateX(0) rotateY(0); }
+}
+
+@keyframes pulse-slow {
+    0%, 100% { opacity: 0.1; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.2; transform: scale(1.1) rotate(180deg); }
+}
+
+@keyframes rotate-glow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes circuit-flow {
+    0% { stroke-dashoffset: 1000; opacity: 0; }
+    50% { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* Animation classes */
+.pulse-animation {
+    animation: pulse 8s ease-in-out infinite;
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+.rotate3d-animation {
+    animation: rotate3d 8s ease-in-out infinite;
+}
+
+/* 3D transforms */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.preserve-3d {
+    transform-style: preserve-3d;
+}
+
+/* Smooth transitions */
+.section-transition {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive optimizations */
+@media (prefers-reduced-motion: reduce) {
+    .pulse-animation,
+    .float-animation,
+    .rotate3d-animation {
+        animation: none;
+    }
+}
+
+/* Performance optimizations */
+.gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    will-change: transform;
+}
+
+/* Loading states */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Scroll animations */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Section spacing */
+.section-gap {
+    margin: 6rem 0;
+}
+
+@media (max-width: 768px) {
+    .section-gap {
+        margin: 4rem 0;
+    }
+}
+
+/* Ensure smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Optimize animations */
+* {
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,217 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
+
+interface Dot {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+    color: string;
+}
+
+const TechBackground: React.FC = () => {
+    const [dots, setDots] = useState<Dot[]>([]);
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    
+    const colors = ['#430E18', '#411D2B', '#2A0A11'];
+    
+    const initializeDots = useCallback(() => {
+        const dotCount = Math.floor((window.innerWidth * window.innerHeight) / 20000);
+        const newDots = Array.from({ length: dotCount }, () => ({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5,
+            size: Math.random() * 2 + 1,
+            color: colors[Math.floor(Math.random() * colors.length)]
+        }));
+        
+        setDots(newDots);
+        setDimensions({
+            width: window.innerWidth,
+            height: window.innerHeight
+        });
+    }, []);
+    
+    useEffect(() => {
+        initializeDots();
+        
+        const handleResize = () => {
+            initializeDots();
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [initializeDots]);
+    
+    useEffect(() => {
+        let animationFrameId: number;
+        let lastTime = performance.now();
+        
+        const animate = (currentTime: number) => {
+            const deltaTime = (currentTime - lastTime) * 0.1;
+            lastTime = currentTime;
+            
+            setDots(prevDots => prevDots.map(dot => {
+                let newX = dot.x + dot.vx * deltaTime;
+                let newY = dot.y + dot.vy * deltaTime;
+                
+                // Create smooth wrapping effect
+                if (newX < -50) newX = window.innerWidth + 50;
+                if (newX > window.innerWidth + 50) newX = -50;
+                if (newY < -50) newY = window.innerHeight + 50;
+                if (newY > window.innerHeight + 50) newY = -50;
+                
+                return {
+                    ...dot,
+                    x: newX,
+                    y: newY
+                };
+            }));
+            
+            animationFrameId = requestAnimationFrame(animate);
+        };
+        
+        animationFrameId = requestAnimationFrame(animate);
+        
+        return () => {
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, [dimensions]);
+
+    return (
+        <div className="fixed inset-0 -z-10 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#110E15] via-[#211720] to-[#411D2B] opacity-95" />
+            
+            {/* Network animation */}
+            <svg className="absolute inset-0 w-full h-full">
+                <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2A0A11" stopOpacity="0.8" />
+                        <stop offset="50%" stopColor="#430E18" stopOpacity="0.6" />
+                        <stop offset="100%" stopColor="#411D2B" stopOpacity="0.8" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                {dots.map((dot, i) => (
+                    <g key={i}>
+                        {dots.map((dot2, j) => {
+                            if (j <= i) return null;
+                            const distance = Math.hypot(dot2.x - dot.x, dot2.y - dot.y);
+                            const maxDistance = Math.min(window.innerWidth, window.innerHeight) * 0.2;
+                            
+                            if (distance < maxDistance) {
+                                return (
+                                    <motion.line
+                                        key={`${i}-${j}`}
+                                        x1={dot.x}
+                                        y1={dot.y}
+                                        x2={dot2.x}
+                                        y2={dot2.y}
+                                        stroke="url(#lineGradient)"
+                                        strokeOpacity={(1 - distance / maxDistance) * 0.5}
+                                        strokeWidth={Math.max(0.5, 2 * (1 - distance / maxDistance))}
+                                        filter="url(#glow)"
+                                        initial={{ pathLength: 0, opacity: 0 }}
+                                        animate={{ 
+                                            pathLength: [0, 1],
+                                            opacity: [0, 1]
+                                        }}
+                                        transition={{ 
+                                            duration: 1.5,
+                                            repeat: Infinity,
+                                            repeatType: "reverse",
+                                            ease: "easeInOut"
+                                        }}
+                                    />
+                                );
+                            }
+                            return null;
+                        })}
+                        <motion.circle
+                            cx={dot.x}
+                            cy={dot.y}
+                            r={dot.size}
+                            fill={dot.color}
+                            filter="url(#glow)"
+                            initial={{ scale: 0 }}
+                            animate={{ 
+                                scale: [1, 1.5, 1],
+                                opacity: [0.6, 1, 0.6]
+                            }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                repeatType: "reverse",
+                                delay: i * 0.05,
+                                ease: "easeInOut"
+                            }}
+                        />
+                    </g>
+                ))}
+            </svg>
+
+            {/* Floating particles effect */}
+            <div className="absolute inset-0">
+                {Array.from({ length: 30 }).map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute rounded-full"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            width: `${Math.random() * 2 + 1}px`,
+                            height: `${Math.random() * 2 + 1}px`,
+                            background: colors[Math.floor(Math.random() * colors.length)],
+                            boxShadow: '0 0 10px rgba(67, 14, 24, 0.8)'
+                        }}
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{
+                            y: [0, -50, 0],
+                            x: [0, Math.random() * 30 - 15, 0],
+                            opacity: [0, 0.8, 0],
+                            scale: [0, 2, 0]
+                        }}
+                        transition={{
+                            duration: Math.random() * 3 + 2,
+                            repeat: Infinity,
+                            delay: i * 0.3,
+                            ease: "easeInOut"
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* Dynamic light effect */}
+            <div className="absolute inset-0">
+                <div 
+                    className="absolute inset-0"
+                    style={{
+                        background: 'radial-gradient(circle at 50% 50%, rgba(67, 14, 24, 0.2) 0%, transparent 70%)',
+                        animation: 'pulse 8s ease-in-out infinite'
+                    }}
+                />
+            </div>
+
+            {/* CSS animations */}
+            <style>
+                {`
+                    @keyframes pulse {
+                        0% { transform: scale(1); opacity: 0.2; }
+                        50% { transform: scale(1.5); opacity: 0.1; }
+                        100% { transform: scale(1); opacity: 0.2; }
+                    }
+                `}
+            </style>
+        </div>
+    );
+};
+
+export default TechBackground;
