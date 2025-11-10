@@ -39,11 +39,75 @@ section {
     overflow: hidden;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Base responsive styles */
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Responsive section spacing */
+.section-content {
+    padding: 1rem 0;
+}
+
+@media (min-width: 640px) {
     .section-content {
-        padding: 1rem 0;
+        padding: 1.5rem 0;
     }
+}
+
+@media (min-width: 768px) {
+    .section-content {
+        padding: 2rem 0;
+    }
+}
+
+/* Container responsiveness */
+.container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+@media (min-width: 640px) {
+    .container {
+        max-width: 640px;
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1024px;
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1280px;
+    }
+}
+
+/* Prevent overflow issues */
+.overflow-fix {
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 /* Ensure no margin/padding on wrapper elements */
@@ -160,3 +224,172 @@ section.projects > *:nth-child(2) { animation-delay: 0.4s; }
 section.projects > *:nth-child(3) { animation-delay: 0.6s; }
 section.projects > *:nth-child(4) { animation-delay: 0.8s; }
 section.projects > *:nth-child(5) { animation-delay: 1s; }
+
+/* Mobile-first overrides: improve readability and prevent overflow */
+@media (max-width: 768px) {
+    .hero-name {
+        font-size: 1.25rem; /* ~20px */
+        line-height: 1.15;
+    }
+
+    .hero-desc {
+        font-size: 0.95rem; /* ~15px */
+        margin-top: 0.5rem;
+    }
+
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .profile-wrapper {
+        border-width: 1px !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.4) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-name {
+        font-size: 1.125rem; /* ~18px */
+    }
+
+    .hero-desc {
+        font-size: 0.9rem; /* ~14px */
+    }
+
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    /* ensure rounded border sizes are smaller on tiny screens */
+    .profile-wrapper {
+        border-radius: 0.5rem !important;
+    }
+}
+
+/* Prevent horizontal scroll */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Ensure header height doesn't overlap hero content on small screens */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+}
+
+/* Profile image responsive styles */
+.profile-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.profile-wrapper img {
+    width: 100%;
+    height: auto; /* allow intrinsic scaling */
+    object-fit: contain; /* ensure full image visible on small screens */
+    display: block;
+    border-radius: inherit;
+    max-height: 45vh; /* prevent image from exceeding viewport height on small devices */
+}
+
+/* Hero section spacing and responsive layout */
+@media (max-width: 1024px) {
+    section#home {
+        min-height: auto !important;
+    }
+    
+    .profile-wrapper {
+        max-width: 360px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    section#home {
+        padding-top: 5rem !important;
+        padding-bottom: 3rem !important;
+    }
+    
+    .profile-wrapper {
+        max-width: 320px;
+        margin: 0 auto 1.5rem;
+    }
+
+    /* make sure profile image scales down further on small devices */
+    .profile-wrapper img {
+        max-height: 42vh;
+        object-fit: contain;
+    }
+
+    /* Ensure social icons are visible and properly spaced */
+    .social-links {
+        margin-top: 1.5rem;
+        margin-bottom: 2rem;
+        padding: 0.5rem;
+    }
+    
+    .hero-name {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .hero-desc {
+        font-size: 0.95rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    section#home {
+        padding-top: 4.5rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .profile-wrapper {
+        max-width: 280px;
+        margin: 0 auto 1rem;
+    }
+    
+    .hero-name {
+        font-size: 1.75rem !important;
+    }
+    
+    .hero-desc {
+        font-size: 0.875rem !important;
+    }
+}
+
+@media (min-width: 768px) {
+    /* On tablet and above, allow the image to fill its container and use cover */
+    .profile-wrapper img {
+        object-fit: cover;
+        max-height: none;
+        height: auto;
+    }
+}
+
+/* Mobile menu animation and overlay */
+@keyframes menuSlideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes menuSlideOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
+}
+
+.mobile-menu-open {
+    animation: menuSlideIn 0.3s ease forwards;
+}
+
+.mobile-menu-closed {
+    animation: menuSlideOut 0.3s ease forwards;
+}

@@ -60,46 +60,46 @@ const App = () => {
             case 'ready':
                 return (
                     <div className="text-gray-300 font-sans antialiased relative min-h-screen bg-[#110E15]">
-                        <div className="relative z-10 opacity-0 transition-all duration-700 ease-out transform translate-y-4" ref={mainContentRef}>
+                        <div className="relative z-10 opacity-0 transition-all duration-700 ease-out transform translate-y-4 overflow-x-hidden" ref={mainContentRef}>
                             <Header />
                             
                             {/* Hero Section */}
-                            <section id="home" className="min-h-screen relative overflow-hidden">
+                            <section id="home" className="pt-20 pb-16 sm:pt-24 sm:pb-20 lg:min-h-[100svh] relative overflow-x-hidden">
                                 <TechBackground />
                                 <div className="absolute inset-0 bg-gradient-to-br from-[#110E15]/80 via-[#211720]/70 to-[#411D2B]/80 backdrop-blur-sm"></div>
-                                <div className="relative z-10 container mx-auto px-6 h-screen flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24">
+                                <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-12 lg:gap-24 min-h-[calc(100vh-80px)]">
                                     {/* Profile Image Container */}
-                                    <div className="w-full max-w-md lg:w-2/5 relative group" data-aos="fade-right">
-                                        <div className="relative z-20 rounded-2xl overflow-hidden border-4 border-[#656772]/30 shadow-2xl shadow-[#656772]/20 transform transition-all duration-500 group-hover:scale-105 group-hover:rotate-2">
+                                    <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:w-2/5 relative group mx-auto lg:mx-0" data-aos="fade-right">
+                                        <div className="profile-wrapper relative z-20 rounded-xl sm:rounded-2xl overflow-hidden border-2 sm:border-4 border-[#656772]/30 shadow-xl sm:shadow-2xl shadow-[#656772]/20 transform transition-all duration-500 group-hover:scale-105 group-hover:rotate-2">
                                             <OptimizedImage 
                                                 src={personalInfo.profilePhoto} 
                                                 alt="Korivi Rahul" 
-                                                className="w-full h-[500px] object-cover object-center filter brightness-95 contrast-105 transition-all duration-500 group-hover:brightness-110"
+                                                className="w-full rounded-xl overflow-hidden filter brightness-95 contrast-105 transition-all duration-500 group-hover:brightness-110"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                         </div>
-                                        <div className="absolute -top-4 -left-4 w-full h-full border-2 border-[#656772] rounded-2xl transform -rotate-3 transition-transform duration-500 group-hover:rotate-6"></div>
-                                        <div className="absolute -bottom-4 -right-4 w-full h-full border-2 border-[#57463A] rounded-2xl transform rotate-3 transition-transform duration-500 group-hover:-rotate-6"></div>
+                                        <div className="hidden sm:block absolute -top-2 sm:-top-4 -left-2 sm:-left-4 w-full h-full border border-[#656772] rounded-xl sm:rounded-2xl transform -rotate-3 transition-transform duration-500 group-hover:rotate-6"></div>
+                                        <div className="hidden sm:block absolute -bottom-2 sm:-bottom-4 -right-2 sm:-right-4 w-full h-full border border-[#57463A] rounded-xl sm:rounded-2xl transform rotate-3 transition-transform duration-500 group-hover:-rotate-6"></div>
                                     </div>
 
                                     {/* Content Container */}
-                                    <div className="lg:w-3/5 text-center lg:text-left" data-aos="fade-left">
+                                    <div className="w-full lg:w-3/5 text-center lg:text-left px-4 sm:px-0" data-aos="fade-left">
                                         <div className="relative">
                                             <div className="hidden lg:block absolute -left-12 top-1/2 w-8 h-1 bg-[#656772]"></div>
-                                            <h2 className="text-5xl md:text-7xl font-bold text-gray-100 tracking-tight leading-tight animate-text-shadow">
+                                            <h2 className="hero-name text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-100 tracking-tight leading-tight animate-text-shadow">
                                                 {personalInfo.name}
                                             </h2>
-                                            <p className="mt-6 max-w-xl text-lg text-gray-300/90 leading-relaxed mx-auto lg:mx-0 backdrop-blur-sm">
+                                            <p className="hero-desc mt-3 sm:mt-4 max-w-xl text-sm sm:text-base text-gray-300/90 leading-relaxed mx-auto lg:mx-0 backdrop-blur-sm">
                                                 {personalInfo.summary}
                                             </p>
                                             
                                             {/* Social links */}
-                                            <div className="flex items-center justify-center lg:justify-start space-x-6 mt-8">
+                                            <div className="social-links flex items-center justify-center lg:justify-start space-x-4 sm:space-x-6 mt-6 sm:mt-8 mb-8 sm:mb-0">
                                                 <a href={`mailto:${personalInfo.email}`} 
                                                    className="text-gray-400 hover:text-[#656772] transform hover:scale-110 transition-all duration-300 ease-out" 
                                                    aria-label="Email">
-                                                    <div className="p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
-                                                        <MailIcon className="w-7 h-7" />
+                                                    <div className="p-2 sm:p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
+                                                        <MailIcon className="w-5 h-5 sm:w-7 sm:h-7" />
                                                     </div>
                                                 </a>
                                                 <a href={personalInfo.github} 
@@ -107,8 +107,8 @@ const App = () => {
                                                    rel="noopener noreferrer" 
                                                    className="text-gray-400 hover:text-[#656772] transform hover:scale-110 transition-all duration-300 ease-out" 
                                                    aria-label="GitHub">
-                                                    <div className="p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
-                                                        <GithubIcon className="w-6 h-6" />
+                                                    <div className="p-2 sm:p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
+                                                        <GithubIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                                                     </div>
                                                 </a>
                                                 <a href={personalInfo.linkedin} 
@@ -116,8 +116,8 @@ const App = () => {
                                                    rel="noopener noreferrer" 
                                                    className="text-gray-400 hover:text-[#656772] transform hover:scale-110 transition-all duration-300 ease-out" 
                                                    aria-label="LinkedIn">
-                                                    <div className="p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
-                                                        <LinkedinIcon className="w-6 h-6" />
+                                                    <div className="p-2 sm:p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
+                                                        <LinkedinIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                                                     </div>
                                                 </a>
                                                 <a href={personalInfo.leetcode} 
@@ -125,8 +125,8 @@ const App = () => {
                                                    rel="noopener noreferrer" 
                                                    className="text-gray-400 hover:text-[#656772] transform hover:scale-110 transition-all duration-300 ease-out" 
                                                    aria-label="LeetCode">
-                                                    <div className="p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
-                                                        <LeetcodeIcon className="w-6 h-6" />
+                                                    <div className="p-2 sm:p-3 rounded-full bg-[#2E2B26]/50 hover:bg-[#2E2B26]/80">
+                                                        <LeetcodeIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                                                     </div>
                                                 </a>
                                             </div>
@@ -169,12 +169,12 @@ const App = () => {
 
                                 {/* Projects Section */}
                                 <Section3D className="mb-8">
-                                    <section id="projects" className="py-8">
-                                        <h2 className="text-3xl font-bold text-gray-100 mb-8 flex items-center">
-                                            <span className="text-[#656772] font-mono text-2xl mr-4">02.</span> Projects
-                                            <span className="h-px bg-gray-700 flex-grow ml-4"></span>
+                                    <section id="projects" className="py-6 sm:py-8">
+                                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-6 sm:mb-8 flex items-center px-4 sm:px-0">
+                                            <span className="text-[#656772] font-mono text-xl sm:text-2xl mr-3 sm:mr-4">02.</span> Projects
+                                            <span className="h-px bg-gray-700 flex-grow ml-3 sm:ml-4"></span>
                                         </h2>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 px-4 sm:px-0">
                                             {projects.map((project, index) => (
                                                 <motion.div 
                                                     key={index}
@@ -185,11 +185,11 @@ const App = () => {
                                                     transition={{ duration: 0.4, delay: Math.min(index * 0.1, 0.8) }}
                                                     whileHover={{ scale: 1.01 }}
                                                 >
-                                                    <div className="p-6 flex flex-col flex-grow">
-                                                        <div className="flex justify-between items-center mb-4">
+                                                    <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                                                        <div className="flex justify-between items-center mb-3 sm:mb-4">
                                                             <motion.svg 
                                                                 xmlns="http://www.w3.org/2000/svg" 
-                                                                className="h-8 w-8 text-[#430E18]" 
+                                                                className="h-6 w-6 sm:h-8 sm:w-8 text-[#430E18]" 
                                                                 fill="none" 
                                                                 viewBox="0 0 24 24" 
                                                                 stroke="currentColor"
@@ -198,15 +198,15 @@ const App = () => {
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                                                             </motion.svg>
                                                         </div>
-                                                        <h3 className="text-xl font-bold text-gray-100 mb-2 flex-grow">{project.title}</h3>
-                                                        <p className="text-gray-400 mb-4">{project.description}</p>
+                                                        <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-2 flex-grow">{project.title}</h3>
+                                                        <p className="text-sm sm:text-base text-gray-400 mb-4">{project.description}</p>
                                                     </div>
-                                                    <div className="bg-[#110E15]/40 p-4 rounded-b-lg">
-                                                        <div className="flex flex-wrap gap-2">
+                                                    <div className="bg-[#110E15]/40 p-3 sm:p-4 rounded-b-lg">
+                                                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                                                             {project.tech.map((tech, i) => (
                                                                 <motion.span 
                                                                     key={i} 
-                                                                    className="bg-[#2A0A11]/80 backdrop-blur-sm text-gray-200 px-3 py-1 rounded-full text-xs font-mono"
+                                                                    className="bg-[#2A0A11]/80 backdrop-blur-sm text-gray-200 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-mono"
                                                                     initial={{ opacity: 0, scale: 0.8 }}
                                                                     whileInView={{ opacity: 1, scale: 1 }}
                                                                     whileHover={{ scale: 1.1, backgroundColor: "rgba(67, 14, 24, 0.8)" }}
@@ -234,7 +234,7 @@ const App = () => {
                                             transition={{ duration: 0.5 }}
                                         >
                                             <span className="text-[#656772] font-mono text-2xl mr-4">03.</span> Skills
-                                            <span className="h-px bg-gray-700 flex-grow ml-4"></span>
+                                            <span className="h-px bg-[#2A0A11] flex-grow ml-4"></span>
                                         </motion.h2>
                                         <motion.div 
                                             className="space-y-8"

@@ -126,6 +126,24 @@ const ParticleShapeComponent: React.FC<ParticleShape> = ({
     }
 };
 
+// Move constant palettes and shape list outside the component so references are stable
+const COLORS = [
+    '#4FACFE', '#00F2FE', '#00D2FF', '#0A84FF',
+    'rgba(79, 172, 254, 0.8)',
+    'rgba(0, 242, 254, 0.8)',
+    'rgba(0, 210, 255, 0.8)',
+    'rgba(10, 132, 255, 0.8)'
+];
+
+const GLOW_COLORS = [
+    'rgba(79, 172, 254, 0.2)',
+    'rgba(0, 242, 254, 0.2)',
+    'rgba(0, 210, 255, 0.2)',
+    'rgba(10, 132, 255, 0.2)'
+];
+
+const SHAPES = ['circle', 'square', 'triangle', 'diamond', 'hexagon', 'star'] as const;
+
 const TechBackground: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollY } = useScroll();
@@ -134,23 +152,8 @@ const TechBackground: React.FC = () => {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [gridLines, setGridLines] = useState<GridLine[]>([]);
-
-    const colors = [
-        '#4FACFE', '#00F2FE', '#00D2FF', '#0A84FF',
-        'rgba(79, 172, 254, 0.8)',
-        'rgba(0, 242, 254, 0.8)',
-        'rgba(0, 210, 255, 0.8)',
-        'rgba(10, 132, 255, 0.8)'
-    ];
-
-    const glowColors = [
-        'rgba(79, 172, 254, 0.2)',
-        'rgba(0, 242, 254, 0.2)',
-        'rgba(0, 210, 255, 0.2)',
-        'rgba(10, 132, 255, 0.2)'
-    ];
-
-    const shapes = ['circle', 'square', 'triangle', 'diamond', 'hexagon', 'star'] as const;
+    const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+    
 
     const initializeGrid = useCallback(() => {
         const gridSize = 50;
@@ -193,8 +196,8 @@ const TechBackground: React.FC = () => {
             vx: (Math.random() - 0.5) * 0.8,
             vy: (Math.random() - 0.5) * 0.8,
             size: Math.random() * 4 + 2,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            shape: shapes[Math.floor(Math.random() * shapes.length)],
+            color: COLORS[Math.floor(Math.random() * COLORS.length)],
+            shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
             angle: Math.random() * 360,
             scale: Math.random() * 0.5 + 0.5,
             opacity: Math.random() * 0.5 + 0.5,
@@ -207,7 +210,7 @@ const TechBackground: React.FC = () => {
             width: window.innerWidth,
             height: window.innerHeight
         });
-    }, [colors, shapes]);
+    }, []);
 
     useEffect(() => {
         initializeDots();
@@ -225,9 +228,15 @@ const TechBackground: React.FC = () => {
         window.addEventListener('resize', handleResize);
         window.addEventListener('mousemove', handleMouseMove);
 
+    // small screen detection
+    const updateSmall = () => setIsSmallScreen(window.innerWidth < 768);
+    updateSmall();
+    window.addEventListener('resize', updateSmall);
+
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('resize', updateSmall);
         };
     }, [initializeDots, initializeGrid]);
 
@@ -290,6 +299,9 @@ const TechBackground: React.FC = () => {
         animationFrameId = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(animationFrameId);
     }, [mousePosition]);
+
+    // Option A chosen by user: completely disable background on small screens to reduce load.
+    if (isSmallScreen) return null;
 
     return (
         <motion.div
